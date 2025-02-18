@@ -13,8 +13,8 @@ public class AtividadeService {
 	@Autowired
 	private AtividadeRepository repo;
 	
-	public ResponseEntity<?> CreateAtividadeService(String nome,String descricao,BigDecimal preco) throws Exception{
-		return repo.CreateAtividade(nome, descricao, preco);
+	public ResponseEntity<?> CreateAtividadeService(Integer idCategory,String nome,String descricao,BigDecimal preco) throws Exception{
+		return repo.CreateAtividade(idCategory,nome, descricao, preco);
 	}
 	public Integer GetIdForOneEvent(String nome) throws Exception {
 		return repo.GetIdForOneEvent(nome);

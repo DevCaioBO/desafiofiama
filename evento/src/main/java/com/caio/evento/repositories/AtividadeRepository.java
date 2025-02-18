@@ -47,12 +47,12 @@ public class AtividadeRepository {
 		return idForEvent;
 	}
 	
-	public ResponseEntity<?> CreateAtividade(String nome,String descricao,BigDecimal preco) throws Exception{
+	public ResponseEntity<?> CreateAtividade(Integer idCategory,String nome,String descricao,BigDecimal preco) throws Exception{
 		String sqlSelect = """
 				SELECT nome FROM tb_atividade WHERE nome = ?
 				""";
 		String sqlInsert = """
-				INSERT INTO tb_atividade(nome,descricao,preco) VALUES(?,?,?)
+				INSERT INTO tb_atividade(id_categoria,nome,descricao,preco) VALUES(?,?,?,?)
 				""";
 		Boolean isExistentEvent = false;
 		try(Connection con = dataSource.getConnection();){
@@ -69,9 +69,10 @@ public class AtividadeRepository {
 				}
 				else {
 					try(PreparedStatement stmtInsert = con.prepareStatement(sqlInsert);){
-						stmtInsert.setString(1, nome);
-						stmtInsert.setString(2, descricao);
-						stmtInsert.setBigDecimal(3, preco);
+						stmtInsert.setInt(1, idCategory);
+						stmtInsert.setString(2, nome);
+						stmtInsert.setString(3, descricao);
+						stmtInsert.setBigDecimal(4, preco);
 						stmtInsert.executeUpdate();
 						
 					}

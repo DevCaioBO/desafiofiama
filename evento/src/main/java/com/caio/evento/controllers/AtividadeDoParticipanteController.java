@@ -3,6 +3,8 @@ package com.caio.evento.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,9 @@ public class AtividadeDoParticipanteController {
 	
 	@PostMapping("create")
 	public ResponseEntity<?> createPkActivityXParticipante(@RequestBody AtividadexParticipantePKDTO data)throws Exception{
+		if(serviceUtilsParticipant.GetIdForOneParticipant(data.getEmailParticipante()) ==0 ||serviceUtilsAtividade.GetIdForOneEvent(data.getNomeAtividade())==0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("erro ao parear atividade x participante");
+		}
 		return service.pkActivityXParticipanteService(serviceUtilsParticipant.GetIdForOneParticipant(data.getEmailParticipante()),
 serviceUtilsAtividade.GetIdForOneEvent(data.getNomeAtividade()));
 	}
